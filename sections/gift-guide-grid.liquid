@@ -1,12 +1,5 @@
 {{ 'gift-guide.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'gift-guide.js' | asset_url }}" defer="defer"></script>
-{{ section.settings.heading_font | font_face: font_display: 'swap' }}
-
-<style>
-  #shopify-section-{{ section.id }} .gift-guide-grid {
-    --gift-guide-heading-font: {{ section.settings.heading_font.family }}, {{ section.settings.heading_font.fallback_families }};
-  }
-</style>
 
 {%- liquid
   assign companion_product = section.settings.companion_product
@@ -137,7 +130,6 @@
   "class": "section",
   "max_blocks": 6,
   "settings": [
-    { "type": "font_picker", "id": "heading_font", "label": "Grid heading font", "default": "lustria_n4" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Tisso vison in the wild" },
     { "type": "product", "id": "companion_product", "label": "Companion product (Soft Winter Jacket)", "info": "Added automatically when a Black / Medium variant is selected." }
   ],

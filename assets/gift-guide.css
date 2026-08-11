@@ -5,7 +5,7 @@
   --gift-guide-yellow: #fff544;
   background: var(--gift-guide-paper);
   color: var(--gift-guide-black);
-  font-family: 'Jost', var(--font-body-family);
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 /* This template supplies the compact header and deliberately has no site footer. */
@@ -153,7 +153,7 @@ body:has(.gift-guide-page) footer {
 }
 
 .gift-guide-grid__title {
-  font-family: var(--gift-guide-heading-font, Georgia, 'Times New Roman', serif);
+  font-family: Georgia, 'Times New Roman', serif;
   font-size: 3.6rem;
   font-style: normal;
   font-weight: 400;
