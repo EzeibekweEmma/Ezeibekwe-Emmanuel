@@ -1,11 +1,5 @@
 {{ 'gift-guide.css' | asset_url | stylesheet_tag }}
 
-{%- liquid
-  assign gift_guide_medium_font = section.settings.body_font | font_modify: 'weight', '500'
--%}
-{{ section.settings.body_font | font_face: font_display: 'swap' }}
-{{ gift_guide_medium_font | font_face: font_display: 'swap' }}
-
 <section class="gift-guide-page gift-guide-banner" aria-labelledby="GiftGuideHeading-{{ section.id }}">
   <div class="gift-guide-banner__bar">
     <a class="gift-guide-brand" href="{{ section.settings.brand_link | default: routes.root_url }}">
@@ -45,7 +39,6 @@
   "tag": "section",
   "class": "section",
   "settings": [
-    { "type": "font_picker", "id": "body_font", "label": "Gift guide font", "default": "jost_n4" },
     { "type": "text", "id": "brand_text", "label": "Brand text", "default": "TISSO VISON" },
     { "type": "url", "id": "brand_link", "label": "Brand link" },
     { "type": "text", "id": "top_message", "label": "Top message", "default": "Find the ideal gift for your loved ones." },

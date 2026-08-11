@@ -24,7 +24,7 @@
         "product_6": { "type": "product", "settings": { "hotspot_x": 76, "hotspot_y": 39 } }
       },
       "block_order": ["product_1", "product_2", "product_3", "product_4", "product_5", "product_6"],
-      "settings": { "heading_font": "lustria_n4", "heading": "Tisso vison in the wild" }
+      "settings": { "heading": "Tisso vison in the wild" }
     }
   },
   "order": ["gift_guide_banner", "gift_guide_grid"]
