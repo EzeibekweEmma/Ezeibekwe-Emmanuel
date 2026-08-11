@@ -1,0 +1,31 @@
+{
+  "sections": {
+    "gift_guide_banner": {
+      "type": "gift-guide-banner",
+      "settings": {
+        "brand_text": "TISSO VISON",
+        "top_message": "Find the ideal gift for your loved ones.",
+        "gift_label": "Choose gift",
+        "heading": "The Gift Guide",
+        "description": "Discover Joy: Your Ultimate Holiday Gift Destination.\nExplore our curated selection and find the perfect gifts to delight your loved ones this holiday season.",
+        "cta_label": "Shop now",
+        "strapline": "Sustainable, ethically made clothes in sizes XXS to 6XL",
+        "menu_label": "Menu"
+      }
+    },
+    "gift_guide_grid": {
+      "type": "gift-guide-grid",
+      "blocks": {
+        "product_1": { "type": "product", "settings": { "hotspot_x": 62, "hotspot_y": 56 } },
+        "product_2": { "type": "product", "settings": { "hotspot_x": 85, "hotspot_y": 53 } },
+        "product_3": { "type": "product", "settings": { "hotspot_x": 63, "hotspot_y": 21 } },
+        "product_4": { "type": "product", "settings": { "hotspot_x": 72, "hotspot_y": 18 } },
+        "product_5": { "type": "product", "settings": { "hotspot_x": 52, "hotspot_y": 26 } },
+        "product_6": { "type": "product", "settings": { "hotspot_x": 76, "hotspot_y": 39 } }
+      },
+      "block_order": ["product_1", "product_2", "product_3", "product_4", "product_5", "product_6"],
+      "settings": { "heading_font": "lustria_n4", "heading": "Tisso vison in the wild" }
+    }
+  },
+  "order": ["gift_guide_banner", "gift_guide_grid"]
+}
