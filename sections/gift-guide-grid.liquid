@@ -1,0 +1,169 @@
+{{ 'gift-guide.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'gift-guide.js' | asset_url }}" defer="defer"></script>
+{{ section.settings.heading_font | font_face: font_display: 'swap' }}
+
+<style>
+  #shopify-section-{{ section.id }} .gift-guide-grid {
+    --gift-guide-heading-font: {{ section.settings.heading_font.family }}, {{ section.settings.heading_font.fallback_families }};
+  }
+</style>
+
+{%- liquid
+  assign companion_product = section.settings.companion_product
+  if companion_product == blank
+    assign companion_product = all_products['soft-winter-jacket']
+  endif
+  assign companion_variant = companion_product.selected_or_first_available_variant
+  assign rendered_product_ids = ''
+  capture product_json
+    for block in section.blocks limit: 6
+      assign product = block.settings.product
+      if product != blank
+        assign product_marker = '|' | append: product.id | append: '|'
+        unless rendered_product_ids contains product_marker
+          if rendered_product_ids != blank
+            echo ','
+          endif
+          echo '"' | append: product.id | append: '": {'
+          echo '"id": ' | append: product.id | append: ','
+          echo '"title": '
+          echo product.title | json
+          echo ','
+          echo '"description": '
+          echo product.description | strip_html | json
+          echo ','
+          echo '"image": '
+          echo product.featured_media.preview_image | image_url: width: 720 | json
+          echo ','
+          echo '"imageAlt": '
+          echo product.featured_media.alt | default: product.title | json
+          echo ','
+          echo '"options": '
+          echo product.options | json
+          echo ','
+          echo '"variants": ['
+          for variant in product.variants
+            echo '{'
+            echo '"id": ' | append: variant.id | append: ','
+            echo '"available": '
+            echo variant.available | json
+            echo ','
+            echo '"options": '
+            echo variant.options | json
+            echo ','
+            echo '"priceText": '
+            echo variant.price | money | json
+            echo '}'
+            unless forloop.last
+              echo ','
+            endunless
+          endfor
+          echo ']}'
+          assign rendered_product_ids = rendered_product_ids | append: product_marker
+        endunless
+      endif
+    endfor
+  endcapture
+-%}
+
+<gift-guide-grid
+  class="gift-guide-page gift-guide-grid"
+  data-section-id="{{ section.id }}"
+  data-companion-variant-id="{{ companion_variant.id }}"
+>
+  <h2 class="gift-guide-grid__title">{{ section.settings.heading | escape }}</h2>
+  <div class="gift-guide-grid__items">
+    {%- for block in section.blocks limit: 6 -%}
+      {%- assign product = block.settings.product -%}
+      <article class="gift-guide-product-card" {{ block.shopify_attributes }}>
+        {%- if product != blank -%}
+          {%- if product.featured_media != blank -%}
+            {{
+              product.featured_media.preview_image
+              | image_url: width: 900
+              | image_tag:
+                class: 'gift-guide-product-card__image',
+                widths: '180, 360, 533, 720, 900',
+                sizes: '(min-width: 750px) calc((min(100vw, 1440px) - 142px) / 3), calc((100vw - 34px) / 2)',
+                alt: product.featured_media.alt,
+                loading: 'lazy'
+            }}
+          {%- else -%}
+            {{ 'product-apparel-1' | placeholder_svg_tag: 'gift-guide-product-card__image placeholder-svg' }}
+          {%- endif -%}
+          <button
+            class="gift-guide-hotspot"
+            type="button"
+            data-gift-guide-open
+            data-product-id="{{ product.id }}"
+            style="left: {{ block.settings.hotspot_x }}%; top: {{ block.settings.hotspot_y }}%;"
+            aria-label="Quick view {{ product.title | escape }}"
+          >
+            <span aria-hidden="true">+</span>
+          </button>
+        {%- else -%}
+          {{ 'product-apparel-1' | placeholder_svg_tag: 'gift-guide-product-card__image placeholder-svg' }}
+        {%- endif -%}
+      </article>
+    {%- endfor -%}
+  </div>
+
+  <script type="application/json" data-gift-guide-products>{ {{ product_json | strip }} }</script>
+
+  <dialog class="gift-guide-dialog" data-gift-guide-dialog aria-labelledby="GiftGuideProductTitle-{{ section.id }}">
+    <div class="gift-guide-dialog__panel">
+      <button class="gift-guide-dialog__close" type="button" data-gift-guide-close aria-label="Close product details">×</button>
+      <div class="gift-guide-dialog__summary">
+        <img class="gift-guide-dialog__image" data-product-image width="150" height="150" alt="">
+        <div>
+          <h3 id="GiftGuideProductTitle-{{ section.id }}" class="gift-guide-dialog__title" data-product-title></h3>
+          <p class="gift-guide-dialog__price" data-product-price></p>
+          <p class="gift-guide-dialog__description" data-product-description></p>
+        </div>
+      </div>
+      <div class="gift-guide-dialog__options" data-product-options></div>
+      <button class="gift-guide-dialog__add" type="button" data-gift-guide-add>
+        <span>Add to cart</span><span class="gift-guide-arrow" aria-hidden="true">→</span>
+      </button>
+      <p class="gift-guide-dialog__status" data-gift-guide-status aria-live="polite"></p>
+    </div>
+  </dialog>
+</gift-guide-grid>
+
+{% schema %}
+{
+  "name": "Gift guide grid",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "font_picker", "id": "heading_font", "label": "Grid heading font", "default": "lustria_n4" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Tisso vison in the wild" },
+    { "type": "product", "id": "companion_product", "label": "Companion product (Soft Winter Jacket)", "info": "Added automatically when a Black / Medium variant is selected." }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product hotspot",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product" },
+        { "type": "range", "id": "hotspot_x", "label": "Hotspot horizontal position", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 62 },
+        { "type": "range", "id": "hotspot_y", "label": "Hotspot vertical position", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 56 }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Gift guide grid",
+      "blocks": [
+        { "type": "product", "settings": { "hotspot_x": 62, "hotspot_y": 56 } },
+        { "type": "product", "settings": { "hotspot_x": 85, "hotspot_y": 53 } },
+        { "type": "product", "settings": { "hotspot_x": 63, "hotspot_y": 21 } },
+        { "type": "product", "settings": { "hotspot_x": 72, "hotspot_y": 18 } },
+        { "type": "product", "settings": { "hotspot_x": 52, "hotspot_y": 26 } },
+        { "type": "product", "settings": { "hotspot_x": 76, "hotspot_y": 39 } }
+      ]
+    }
+  ]
+}
+{% endschema %}
