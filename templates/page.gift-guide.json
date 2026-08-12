@@ -13,12 +13,15 @@
       "type": "gift-guide-banner",
       "settings": {
         "brand_text": "TISSO VISON",
+        "brand_link": "",
         "top_message": "Find the ideal gift for your loved ones.",
         "gift_label": "Choose gift",
+        "gift_link": "",
         "heading": "The Gift Guide",
         "description": "Discover Joy: Your Ultimate Holiday Gift Destination.\nExplore our curated selection and find the perfect gifts to delight your loved ones this holiday season.",
         "mobile_description": "Discover Joy: Your Ultimate Holiday Gift Destination.",
         "cta_label": "Shop now",
+        "cta_link": "",
         "strapline": "Sustainable, ethically made clothes in sizes XXS to 6XL",
         "mobile_strapline": "Sustainable, ethically made activewear",
         "menu_label": "Menu"
@@ -27,16 +30,83 @@
     "gift_guide_grid": {
       "type": "gift-guide-grid",
       "blocks": {
-        "product_1": { "type": "product", "settings": { "hotspot_x": 62, "hotspot_y": 56, "mobile_hotspot_x": 65, "mobile_hotspot_y": 14 } },
-        "product_2": { "type": "product", "settings": { "hotspot_x": 85, "hotspot_y": 53, "mobile_hotspot_x": 65, "mobile_hotspot_y": 14 } },
-        "product_3": { "type": "product", "settings": { "hotspot_x": 63, "hotspot_y": 21, "mobile_hotspot_x": 65, "mobile_hotspot_y": 14 } },
-        "product_4": { "type": "product", "settings": { "hotspot_x": 72, "hotspot_y": 18, "mobile_hotspot_x": 65, "mobile_hotspot_y": 14 } },
-        "product_5": { "type": "product", "settings": { "hotspot_x": 52, "hotspot_y": 26, "mobile_hotspot_x": 65, "mobile_hotspot_y": 14 } },
-        "product_6": { "type": "product", "settings": { "hotspot_x": 76, "hotspot_y": 39, "mobile_hotspot_x": 65, "mobile_hotspot_y": 14 } }
+        "product_1": {
+          "type": "product",
+          "settings": {
+            "product": "black-leather-bag",
+            "hotspot_x": 62,
+            "hotspot_y": 56,
+            "mobile_hotspot_x": 65,
+            "mobile_hotspot_y": 14
+          }
+        },
+        "product_2": {
+          "type": "product",
+          "settings": {
+            "product": "blue-silk-tuxedo",
+            "hotspot_x": 85,
+            "hotspot_y": 53,
+            "mobile_hotspot_x": 65,
+            "mobile_hotspot_y": 14
+          }
+        },
+        "product_3": {
+          "type": "product",
+          "settings": {
+            "product": "chequered-red-shirt",
+            "hotspot_x": 63,
+            "hotspot_y": 21,
+            "mobile_hotspot_x": 65,
+            "mobile_hotspot_y": 14
+          }
+        },
+        "product_4": {
+          "type": "product",
+          "settings": {
+            "product": "classic-leather-jacket",
+            "hotspot_x": 72,
+            "hotspot_y": 18,
+            "mobile_hotspot_x": 65,
+            "mobile_hotspot_y": 14
+          }
+        },
+        "product_5": {
+          "type": "product",
+          "settings": {
+            "product": "classic-varsity-top",
+            "hotspot_x": 52,
+            "hotspot_y": 26,
+            "mobile_hotspot_x": 65,
+            "mobile_hotspot_y": 14
+          }
+        },
+        "product_6": {
+          "type": "product",
+          "settings": {
+            "product": "dark-denim-top",
+            "hotspot_x": 76,
+            "hotspot_y": 39,
+            "mobile_hotspot_x": 65,
+            "mobile_hotspot_y": 14
+          }
+        }
       },
-      "block_order": ["product_1", "product_2", "product_3", "product_4", "product_5", "product_6"],
-      "settings": { "heading": "Tisso vison in the wild" }
+      "block_order": [
+        "product_1",
+        "product_2",
+        "product_3",
+        "product_4",
+        "product_5",
+        "product_6"
+      ],
+      "settings": {
+        "heading": "Tisso vison in the wild",
+        "companion_product": ""
+      }
     }
   },
-  "order": ["gift_guide_banner", "gift_guide_grid"]
+  "order": [
+    "gift_guide_banner",
+    "gift_guide_grid"
+  ]
 }
