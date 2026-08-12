@@ -190,7 +190,6 @@ class GiftGuideGrid extends HTMLElement {
       text.textContent = value;
       const colour = this.getColourValue(value);
       text.style.setProperty('--gift-guide-choice-color', colour);
-      text.classList.toggle('gift-guide-option__choice--dark', this.isDarkColour(colour));
       label.append(input, text);
       choices.append(label);
     });
@@ -236,23 +235,6 @@ class GiftGuideGrid extends HTMLElement {
     ].find((name) => normalized.includes(name));
 
     return aliases[namedColour] || namedColour || '#777';
-  }
-
-  isDarkColour(colour) {
-    const sample = document.createElement('span');
-    sample.style.color = colour;
-    sample.style.display = 'none';
-    document.body.append(sample);
-    const rgb = getComputedStyle(sample).color.match(/[\d.]+/g)?.slice(0, 3).map(Number);
-    sample.remove();
-    if (!rgb || rgb.length < 3) return false;
-
-    const [red, green, blue] = rgb.map((channel) => {
-      const value = channel / 255;
-      return value <= 0.03928 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
-    });
-
-    return 0.2126 * red + 0.7152 * green + 0.0722 * blue < 0.32;
   }
 
   createOptionSelect(optionName, values, index) {

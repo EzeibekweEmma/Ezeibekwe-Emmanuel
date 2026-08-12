@@ -164,7 +164,7 @@ body:has(.gift-guide-page) footer {
   background-image: url('gift-guide-hero.svg'), url('gift-guide-hero-bottom.svg');
   background-position: center top, right bottom;
   background-repeat: no-repeat;
-  background-size: 100% auto, 61.8056% 402px;
+  background-size: 100% auto, 61.8056% auto;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -250,7 +250,7 @@ body:has(.gift-guide-page) footer {
   display: block;
   margin: 0 auto;
   max-width: 1440px;
-  padding: 90px 50px 51px;
+  padding: 72px 32px 32px;
 }
 
 .gift-guide-grid__title {
@@ -501,11 +501,8 @@ body.gift-guide-dialog-open {
 }
 
 .gift-guide-option__radio:checked + .gift-guide-option__choice {
-  background: var(--gift-guide-choice-color, #000);
-  box-shadow: none;
-}
-
-.gift-guide-option__radio:checked + .gift-guide-option__choice--dark {
+  background: #000;
+  box-shadow: inset 6px 0 var(--gift-guide-choice-color, #777);
   color: #fff;
 }
 
@@ -600,28 +597,28 @@ body.gift-guide-dialog-open {
   display: none;
 }
 
-/* Keep both desktop illustrations connected and reserve a clear text column on tablets. */
-@media screen and (min-width: 750px) and (max-width: 1199px) {
+/* Keep both illustrations connected and reserve a clear text column on tablets and smaller laptops. */
+@media screen and (min-width: 750px) and (max-width: 1399px) {
   .gift-guide-banner__hero {
     background-position: center top, right bottom;
     background-size: 100% 52%, 62% 50%;
-    height: clamp(520px, 54.1667vw, 650px);
+    height: clamp(620px, 51.25vw, 700px);
     padding: 28px 4.65%;
   }
 
   .gift-guide-banner__content {
     max-width: none;
-    width: 33%;
+    width: 36%;
   }
 
   .gift-guide-banner__heading {
-    font-size: clamp(36px, 4.1vw, 49px);
+    font-size: clamp(34px, 3.7vw, 50px);
     letter-spacing: -1.4px;
     margin-bottom: 24px;
   }
 
   .gift-guide-banner__description {
-    font-size: 16px;
+    font-size: clamp(15px, 1.35vw, 18px);
     line-height: 1.35;
     margin-bottom: 24px;
     max-width: none;
@@ -747,7 +744,7 @@ body.gift-guide-dialog-open {
 
   .gift-guide-grid {
     max-width: 375px;
-    padding: 40px 16.5px 20px;
+    padding: 40px 16px 16px;
   }
 
   .gift-guide-grid__title {
@@ -838,7 +835,7 @@ body.gift-guide-dialog-open {
   }
 
   .gift-guide-grid {
-    padding-inline: 12px;
+    padding: 40px 12px 12px;
   }
 
   .gift-guide-dialog__panel {
