@@ -164,7 +164,7 @@ body:has(.gift-guide-page) footer {
   background-image: url('gift-guide-hero.svg'), url('gift-guide-hero-bottom.svg');
   background-position: center top, right bottom;
   background-repeat: no-repeat;
-  background-size: 100% auto, auto 402px;
+  background-size: 100% auto, 61.8056% 402px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -175,7 +175,8 @@ body:has(.gift-guide-page) footer {
 }
 
 .gift-guide-banner__content {
-  max-width: 500px;
+  max-width: 483px;
+  width: 33.55%;
 }
 
 .gift-guide-banner__heading {
@@ -599,6 +600,39 @@ body.gift-guide-dialog-open {
   display: none;
 }
 
+/* Keep both desktop illustrations connected and reserve a clear text column on tablets. */
+@media screen and (min-width: 750px) and (max-width: 1199px) {
+  .gift-guide-banner__hero {
+    background-position: center top, right bottom;
+    background-size: 100% 52%, 62% 50%;
+    height: clamp(520px, 54.1667vw, 650px);
+    padding: 28px 4.65%;
+  }
+
+  .gift-guide-banner__content {
+    max-width: none;
+    width: 33%;
+  }
+
+  .gift-guide-banner__heading {
+    font-size: clamp(36px, 4.1vw, 49px);
+    letter-spacing: -1.4px;
+    margin-bottom: 24px;
+  }
+
+  .gift-guide-banner__description {
+    font-size: 16px;
+    line-height: 1.35;
+    margin-bottom: 24px;
+    max-width: none;
+  }
+
+  .gift-guide-cta {
+    height: 48px;
+    min-width: 190px;
+  }
+}
+
 @media screen and (max-width: 749px) {
   .gift-guide-banner__bar,
   .gift-guide-banner__description--desktop,
@@ -665,6 +699,7 @@ body.gift-guide-dialog-open {
   .gift-guide-banner__content {
     margin: 0 auto;
     max-width: 341px;
+    width: auto;
   }
 
   .gift-guide-banner__heading {
