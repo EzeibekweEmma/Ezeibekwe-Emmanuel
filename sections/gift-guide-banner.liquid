@@ -12,7 +12,7 @@
   </div>
 
   <div class="gift-guide-banner__mobile-bar">
-    <span class="gift-guide-menu-icon" aria-hidden="true">
+    <span class="gift-guide-menu-icon" role="img" aria-label="{{ section.settings.menu_label | escape }}">
       <span></span>
     </span>
     <a class="gift-guide-mobile-brand" href="{{ section.settings.brand_link | default: routes.root_url }}">
@@ -23,14 +23,22 @@
   <div class="gift-guide-banner__hero">
     <div class="gift-guide-banner__content">
       <h1 id="GiftGuideHeading-{{ section.id }}" class="gift-guide-banner__heading">{{ section.settings.heading | escape }}</h1>
-      <p class="gift-guide-banner__description">{{ section.settings.description | escape | newline_to_br }}</p>
+      <p class="gift-guide-banner__description gift-guide-banner__description--desktop">
+        {{- section.settings.description | escape | newline_to_br -}}
+      </p>
+      <p class="gift-guide-banner__description gift-guide-banner__description--mobile">
+        {{- section.settings.mobile_description | escape -}}
+      </p>
       <a class="gift-guide-cta" href="{{ section.settings.cta_link | default: routes.all_products_collection_url }}">
         <span>{{ section.settings.cta_label | escape }}</span><span class="gift-guide-arrow" aria-hidden="true">→</span>
       </a>
     </div>
   </div>
 
-  <div class="gift-guide-strapline">{{ section.settings.strapline | escape }}</div>
+  <div class="gift-guide-strapline">
+    <span class="gift-guide-strapline__desktop">{{ section.settings.strapline | escape }}</span>
+    <span class="gift-guide-strapline__mobile">{{ section.settings.mobile_strapline | escape }}</span>
+  </div>
 </section>
 
 {% schema %}
@@ -46,9 +54,11 @@
     { "type": "url", "id": "gift_link", "label": "Gift button link" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "The Gift Guide" },
     { "type": "textarea", "id": "description", "label": "Description", "default": "Discover Joy: Your Ultimate Holiday Gift Destination.\nExplore our curated selection and find the perfect gifts to delight your loved ones this holiday season." },
+    { "type": "text", "id": "mobile_description", "label": "Mobile description", "default": "Discover Joy: Your Ultimate Holiday Gift Destination." },
     { "type": "text", "id": "cta_label", "label": "Call to action label", "default": "Shop now" },
     { "type": "url", "id": "cta_link", "label": "Call to action link" },
     { "type": "text", "id": "strapline", "label": "Strapline", "default": "Sustainable, ethically made clothes in sizes XXS to 6XL" },
+    { "type": "text", "id": "mobile_strapline", "label": "Mobile strapline", "default": "Sustainable, ethically made activewear" },
     { "type": "text", "id": "menu_label", "label": "Mobile menu label", "default": "Menu" }
   ],
   "presets": [{ "name": "Gift guide banner" }]

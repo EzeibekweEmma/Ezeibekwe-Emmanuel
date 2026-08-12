@@ -26,7 +26,11 @@
           echo product.description | strip_html | json
           echo ','
           echo '"image": '
-          echo product.featured_media.preview_image | image_url: width: 720 | json
+          if product.featured_media != blank
+            echo product.featured_media.preview_image | image_url: width: 720 | json
+          else
+            echo '' | json
+          endif
           echo ','
           echo '"imageAlt": '
           echo product.featured_media.alt | default: product.title | json
@@ -71,14 +75,15 @@
       <article class="gift-guide-product-card" {{ block.shopify_attributes }}>
         {%- if product != blank -%}
           {%- if product.featured_media != blank -%}
+            {%- assign card_alt = product.featured_media.alt | default: product.title -%}
             {{
               product.featured_media.preview_image
               | image_url: width: 900
               | image_tag:
                 class: 'gift-guide-product-card__image',
                 widths: '180, 360, 533, 720, 900',
-                sizes: '(min-width: 750px) calc((min(100vw, 1440px) - 142px) / 3), calc((100vw - 34px) / 2)',
-                alt: product.featured_media.alt,
+                sizes: '(min-width: 750px) calc((min(100vw, 1440px) - 140px) / 3), calc((min(100vw, 375px) - 37px) / 2)',
+                alt: card_alt,
                 loading: 'lazy'
             }}
           {%- else -%}
@@ -89,8 +94,10 @@
             type="button"
             data-gift-guide-open
             data-product-id="{{ product.id }}"
-            style="left: {{ block.settings.hotspot_x }}%; top: {{ block.settings.hotspot_y }}%;"
+            style="--hotspot-x: {{ block.settings.hotspot_x }}%; --hotspot-y: {{ block.settings.hotspot_y }}%; --hotspot-mobile-x: {{ block.settings.mobile_hotspot_x }}%; --hotspot-mobile-y: {{ block.settings.mobile_hotspot_y }}%;"
             aria-label="Quick view {{ product.title | escape }}"
+            aria-haspopup="dialog"
+            aria-controls="GiftGuideDialog-{{ section.id }}"
           >
             <span aria-hidden="true">+</span>
           </button>
@@ -103,12 +110,17 @@
 
   <script type="application/json" data-gift-guide-products>{ {{ product_json | strip }} }</script>
 
-  <dialog class="gift-guide-dialog" data-gift-guide-dialog aria-labelledby="GiftGuideProductTitle-{{ section.id }}">
+  <dialog
+    id="GiftGuideDialog-{{ section.id }}"
+    class="gift-guide-dialog"
+    data-gift-guide-dialog
+    aria-labelledby="GiftGuideProductTitle-{{ section.id }}"
+  >
     <div class="gift-guide-dialog__panel">
       <button class="gift-guide-dialog__close" type="button" data-gift-guide-close aria-label="Close product details">×</button>
       <div class="gift-guide-dialog__summary">
-        <img class="gift-guide-dialog__image" data-product-image width="150" height="150" alt="">
-        <div>
+        <img class="gift-guide-dialog__image" data-product-image width="150" height="175" alt="">
+        <div class="gift-guide-dialog__information">
           <h3 id="GiftGuideProductTitle-{{ section.id }}" class="gift-guide-dialog__title" data-product-title></h3>
           <p class="gift-guide-dialog__price" data-product-price></p>
           <p class="gift-guide-dialog__description" data-product-description></p>
@@ -116,7 +128,7 @@
       </div>
       <div class="gift-guide-dialog__options" data-product-options></div>
       <button class="gift-guide-dialog__add" type="button" data-gift-guide-add>
-        <span>Add to cart</span><span class="gift-guide-arrow" aria-hidden="true">→</span>
+        <span data-gift-guide-add-label>Add to cart</span><span class="gift-guide-arrow" aria-hidden="true">→</span>
       </button>
       <p class="gift-guide-dialog__status" data-gift-guide-status aria-live="polite"></p>
     </div>
@@ -140,7 +152,9 @@
       "settings": [
         { "type": "product", "id": "product", "label": "Product" },
         { "type": "range", "id": "hotspot_x", "label": "Hotspot horizontal position", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 62 },
-        { "type": "range", "id": "hotspot_y", "label": "Hotspot vertical position", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 56 }
+        { "type": "range", "id": "hotspot_y", "label": "Hotspot vertical position", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 56 },
+        { "type": "range", "id": "mobile_hotspot_x", "label": "Mobile hotspot horizontal position", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 65 },
+        { "type": "range", "id": "mobile_hotspot_y", "label": "Mobile hotspot vertical position", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 14 }
       ]
     }
   ],
@@ -148,12 +162,12 @@
     {
       "name": "Gift guide grid",
       "blocks": [
-        { "type": "product", "settings": { "hotspot_x": 62, "hotspot_y": 56 } },
-        { "type": "product", "settings": { "hotspot_x": 85, "hotspot_y": 53 } },
-        { "type": "product", "settings": { "hotspot_x": 63, "hotspot_y": 21 } },
-        { "type": "product", "settings": { "hotspot_x": 72, "hotspot_y": 18 } },
-        { "type": "product", "settings": { "hotspot_x": 52, "hotspot_y": 26 } },
-        { "type": "product", "settings": { "hotspot_x": 76, "hotspot_y": 39 } }
+        { "type": "product", "settings": { "hotspot_x": 62, "hotspot_y": 56, "mobile_hotspot_x": 65, "mobile_hotspot_y": 14 } },
+        { "type": "product", "settings": { "hotspot_x": 85, "hotspot_y": 53, "mobile_hotspot_x": 65, "mobile_hotspot_y": 14 } },
+        { "type": "product", "settings": { "hotspot_x": 63, "hotspot_y": 21, "mobile_hotspot_x": 65, "mobile_hotspot_y": 14 } },
+        { "type": "product", "settings": { "hotspot_x": 72, "hotspot_y": 18, "mobile_hotspot_x": 65, "mobile_hotspot_y": 14 } },
+        { "type": "product", "settings": { "hotspot_x": 52, "hotspot_y": 26, "mobile_hotspot_x": 65, "mobile_hotspot_y": 14 } },
+        { "type": "product", "settings": { "hotspot_x": 76, "hotspot_y": 39, "mobile_hotspot_x": 65, "mobile_hotspot_y": 14 } }
       ]
     }
   ]
