@@ -89,7 +89,7 @@ class GiftGuideGrid extends HTMLElement {
 
     product.options.forEach((optionName, index) => {
       const values = this.getOptionValues(index);
-      if (!this.isColourOption(optionName) && values.length > 1) this.selections[index] = '';
+      if (this.isColourOption(optionName) || values.length > 1) this.selections[index] = '';
     });
 
     this.activeVariant = this.findVariant(this.selections);
@@ -144,8 +144,16 @@ class GiftGuideGrid extends HTMLElement {
 
   createOptionControls() {
     const fragment = document.createDocumentFragment();
+    const optionPriority = (optionName) => {
+      if (this.isColourOption(optionName)) return 0;
+      if (optionName.toLowerCase() === 'size') return 1;
+      return 2;
+    };
+    const options = this.activeProduct.options
+      .map((optionName, index) => ({ optionName, index }))
+      .sort((a, b) => optionPriority(a.optionName) - optionPriority(b.optionName) || a.index - b.index);
 
-    this.activeProduct.options.forEach((optionName, index) => {
+    options.forEach(({ optionName, index }) => {
       const values = this.getOptionValues(index);
       if (optionName === 'Title' && values.length === 1 && values[0] === 'Default Title') return;
 
