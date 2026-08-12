@@ -188,11 +188,71 @@ class GiftGuideGrid extends HTMLElement {
       const text = document.createElement('span');
       text.className = 'gift-guide-option__choice';
       text.textContent = value;
+      const colour = this.getColourValue(value);
+      text.style.setProperty('--gift-guide-choice-color', colour);
+      text.classList.toggle('gift-guide-option__choice--dark', this.isDarkColour(colour));
       label.append(input, text);
       choices.append(label);
     });
 
     return choices;
+  }
+
+  getColourValue(value) {
+    const normalized = value.trim().toLowerCase();
+    const aliases = {
+      grey: '#808080',
+      gray: '#808080',
+      'light grey': '#d3d3d3',
+      'light gray': '#d3d3d3',
+      'dark grey': '#4a4a4a',
+      'dark gray': '#4a4a4a',
+      navy: '#000080',
+      'navy blue': '#000080',
+      beige: '#d8c3a5',
+      cream: '#fffdd0',
+      burgundy: '#800020',
+      maroon: '#800000',
+    };
+    const directColour = aliases[normalized] || normalized;
+
+    if (typeof CSS !== 'undefined' && CSS.supports('color', directColour)) return directColour;
+
+    const namedColour = [
+      'black',
+      'white',
+      'grey',
+      'gray',
+      'blue',
+      'red',
+      'green',
+      'yellow',
+      'orange',
+      'purple',
+      'pink',
+      'brown',
+      'beige',
+      'navy',
+    ].find((name) => normalized.includes(name));
+
+    return aliases[namedColour] || namedColour || '#777';
+  }
+
+  isDarkColour(colour) {
+    const sample = document.createElement('span');
+    sample.style.color = colour;
+    sample.style.display = 'none';
+    document.body.append(sample);
+    const rgb = getComputedStyle(sample).color.match(/[\d.]+/g)?.slice(0, 3).map(Number);
+    sample.remove();
+    if (!rgb || rgb.length < 3) return false;
+
+    const [red, green, blue] = rgb.map((channel) => {
+      const value = channel / 255;
+      return value <= 0.03928 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+    });
+
+    return 0.2126 * red + 0.7152 * green + 0.0722 * blue < 0.32;
   }
 
   createOptionSelect(optionName, values, index) {
